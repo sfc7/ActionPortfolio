@@ -13,5 +13,19 @@ UCLASS()
 class ACTIONPORTFOLIO_API UPlayerCharacterAnimInstance : public UCharacterAnimInstance
 {
 	GENERATED_BODY()
-	
+public:
+	virtual void NativeInitializeAnimation() override;
+	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds);
+
+protected:
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|Refrences")
+	class APlayerCharacter* OwningPlayerCharacter;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
+	bool bShouldEnterRelaxState;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
+	float EnterRelaxStateThreshold = 5.f;
+
+	float IdleElpasedTime = 5.f;
 };

@@ -2,6 +2,8 @@
 
 
 #include "Character/BaseCharacter.h"
+#include "AbilitySystem/BaseAbilitySystemComponent.h"
+#include "AbilitySystem/BaseAttributeSet.h"
 
 // Sets default values
 ABaseCharacter::ABaseCharacter()
@@ -12,6 +14,28 @@ ABaseCharacter::ABaseCharacter()
 
 	GetMesh()->bReceivesDecals = false;
 
+	BaseAbilitySystemComponent = CreateDefaultSubobject<UBaseAbilitySystemComponent>(TEXT("BaseAbilitySystemComponent"));
+
+	BaseAttributeSet = CreateDefaultSubobject<UBaseAttributeSet>(TEXT("BaseAttributeSet"));
+
+}
+
+UAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const
+{
+	return GetBaseAbilitySystemComponent();
+}
+
+void ABaseCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (BaseAbilitySystemComponent) {
+		BaseAbilitySystemComponent->InitAbilityActorInfo(this, this);
+	}
+}
+
+void ABaseCharacter::UnPossessed()
+{
 }
 
 

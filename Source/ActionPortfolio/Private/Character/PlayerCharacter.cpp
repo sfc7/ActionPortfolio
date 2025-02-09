@@ -10,6 +10,7 @@
 #include "DataAsset/Input/DataAsset_InputConfig.h"
 #include "Component/Input/CharacterInputComponent.h"
 #include "CharacterGamePlayTags.h"
+#include "AbilitySystem/BaseAbilitySystemComponent.h"
 #include "DebugHelper.h"
 
 APlayerCharacter::APlayerCharacter()
@@ -35,6 +36,16 @@ APlayerCharacter::APlayerCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 500.f, 0.f);
 	GetCharacterMovement()->MaxWalkSpeed = 400.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
+}
+
+void APlayerCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (BaseAbilitySystemComponent && BaseAttributeSet) {
+		const FString ASCText = FString::Printf(TEXT("Owner : %s, Avatar : %s"), *BaseAbilitySystemComponent->GetOwnerActor()->GetActorLabel(), *BaseAbilitySystemComponent->GetAvatarActor()->GetActorLabel());
+		Debug::Print(TEXT("valid") + ASCText);
+	}
 }
 
 void APlayerCharacter::BeginPlay()
