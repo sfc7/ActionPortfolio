@@ -7,6 +7,10 @@
 #include "AbilitySystemInterface.h"
 #include "BaseCharacter.generated.h"
 
+class UBaseAbilitySystemComponent;
+class UBaseAttributeSet;
+class UDataAsset_StartUpDataBase;
+
 UCLASS()
 class ACTIONPORTFOLIO_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface
 {
@@ -16,17 +20,19 @@ public:
 	// Sets default values for this character's properties
 	ABaseCharacter();
 
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const;
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 protected:
 	virtual void PossessedBy(AController* NewController) override;
-	virtual void UnPossessed() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
-	class UBaseAbilitySystemComponent* BaseAbilitySystemComponent;
+	UBaseAbilitySystemComponent* BaseAbilitySystemComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
-	class UBaseAttributeSet* BaseAttributeSet;
+	UBaseAttributeSet* BaseAttributeSet;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData")
+	TSoftObjectPtr<UDataAsset_StartUpDataBase> CharacterStartUpData;
 
 public:
 	FORCEINLINE UBaseAbilitySystemComponent* GetBaseAbilitySystemComponent() const  { return BaseAbilitySystemComponent; }

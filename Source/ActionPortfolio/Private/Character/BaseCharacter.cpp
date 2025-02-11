@@ -31,11 +31,9 @@ void ABaseCharacter::PossessedBy(AController* NewController)
 
 	if (BaseAbilitySystemComponent) {
 		BaseAbilitySystemComponent->InitAbilityActorInfo(this, this);
-	}
-}
 
-void ABaseCharacter::UnPossessed()
-{
+		ensureMsgf(!CharacterStartUpData.IsNull(), TEXT("Forgot to assign start up data to %s"), *GetName());
+	}
 }
 
 

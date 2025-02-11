@@ -6,6 +6,8 @@
 #include "AnimInstance/BaseAnimInstance.h"
 #include "CharacterAnimInstance.generated.h"
 
+class APlayerCharacter;
+class UCharacterMovementComponent;
 /**
  * 
  */
@@ -16,14 +18,14 @@ class ACTIONPORTFOLIO_API UCharacterAnimInstance : public UBaseAnimInstance
 	
 public:
 	virtual void NativeInitializeAnimation() override;
-	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds);
+	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
 
 protected:
 	UPROPERTY()
-	class APlayerCharacter* OwningCharacter;
+	APlayerCharacter* OwningCharacter;
 
 	UPROPERTY()
-	class UCharacterMovementComponent* OwningMovementComponent;
+	UCharacterMovementComponent* OwningMovementComponent;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
 	float GroundSpeed;

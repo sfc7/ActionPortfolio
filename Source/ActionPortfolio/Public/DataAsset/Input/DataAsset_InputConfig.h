@@ -7,6 +7,9 @@
 #include "GameplayTagContainer.h"
 #include "DataAsset_InputConfig.generated.h"
 
+class UInputAction;
+class UInputMappingContext;
+
 USTRUCT(BlueprintType)
 struct FCharacterInputConfig
 {
@@ -16,7 +19,7 @@ public:
 	FGameplayTag InputTag;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	class UInputAction* InputAction;
+	UInputAction* InputAction;
 
 };
 /**
@@ -28,11 +31,11 @@ class ACTIONPORTFOLIO_API UDataAsset_InputConfig : public UDataAsset
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	class UInputMappingContext* DefaultMappingContext;
+	UInputMappingContext* DefaultMappingContext;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperty = "InputTag"))
 	TArray<FCharacterInputConfig> NativeInputActions;
 
-	class UInputAction* FindNativeInputActionByTag(const FGameplayTag& _InputTag) const;
+	UInputAction* FindNativeInputActionByTag(const FGameplayTag& InputTag) const;
 	
 };

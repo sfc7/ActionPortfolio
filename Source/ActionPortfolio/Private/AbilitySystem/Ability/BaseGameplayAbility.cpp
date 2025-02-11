@@ -3,12 +3,13 @@
 
 #include "AbilitySystem/Ability/BaseGameplayAbility.h"
 #include "AbilitySystem/BaseAbilitySystemComponent.h"
+#include "Component/Combat/PawnCombatComponent.h"
 
 void UBaseGameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
 {
 	Super::OnGiveAbility(ActorInfo, Spec);
 
-	if (AbilityActivationPolicy == EBaseAbilityActivationPolicy::OnTriggered) {
+	if (AbilityActivationPolicy == EBaseAbilityActivationPolicy::OnGiven) {
 		if (ActorInfo && !Spec.IsActive()) {
 			ActorInfo->AbilitySystemComponent->TryActivateAbility(Spec.Handle);
 		}
@@ -19,9 +20,14 @@ void UBaseGameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle, c
 {
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 
-	if (AbilityActivationPolicy == EBaseAbilityActivationPolicy::OnTriggered) {
+	if (AbilityActivationPolicy == EBaseAbilityActivationPolicy::OnGiven) {
 		if (ActorInfo) {
 			ActorInfo->AbilitySystemComponent->ClearAbility(Handle);
 		}
 	}
+}
+
+UPawnCombatComponent* UBaseGameplayAbility::GetPawnCombatComponentFromActorInfo() const
+{
+	return GetAvatarActorFromActorInfo()->FindComponentByClass<UPawnCombatComponent>();
 }

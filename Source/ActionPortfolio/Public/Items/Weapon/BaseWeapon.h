@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "BaseWeapon.generated.h"
 
+class UBoxComponent;
+
 UCLASS()
 class ACTIONPORTFOLIO_API ABaseWeapon : public AActor
 {
@@ -20,7 +22,7 @@ protected:
 	UStaticMeshComponent* WeaponMesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapons")
-	class UBoxComponent* WeaponCollisionBox;
+	UBoxComponent* WeaponCollisionBox;
 
 public:
 	FORCEINLINE UBoxComponent* GetWeaponCollisionBox() const { return WeaponCollisionBox; }

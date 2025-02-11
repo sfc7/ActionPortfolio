@@ -6,6 +6,8 @@
 #include "Abilities/GameplayAbility.h"
 #include "BaseGameplayAbility.generated.h"
 
+class UPawnCombatComponent;
+
 UENUM(BlueprintType)
 enum class EBaseAbilityActivationPolicy : uint8
 {
@@ -21,10 +23,13 @@ class ACTIONPORTFOLIO_API UBaseGameplayAbility : public UGameplayAbility
 	GENERATED_BODY()
 	
 protected:
-	virtual void OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec) override ;
+	virtual void OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec) override;
 
 	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
 
 	UPROPERTY(EditDefaultsOnly, Category = "CharacterAbility")
 	EBaseAbilityActivationPolicy AbilityActivationPolicy = EBaseAbilityActivationPolicy::OnTriggered;
+
+	UFUNCTION(BlueprintPure, Category = "Character|Ability")
+	UPawnCombatComponent* GetPawnCombatComponentFromActorInfo() const;
 };

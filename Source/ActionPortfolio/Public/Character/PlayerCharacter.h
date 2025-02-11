@@ -7,6 +7,11 @@
 #include "InputActionValue.h"
 #include "PlayerCharacter.generated.h"
 
+class USpringArmComponent;
+class UCameraComponent;
+class UDataAsset_InputConfig;
+struct FInputActionValue;
+class UPlayerCombatComponent;
 /**
  * 
  */
@@ -29,10 +34,13 @@ private:
 #pragma region Comonent
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = true))
-	class USpringArmComponent* CameraBoom;
+	USpringArmComponent* CameraBoom;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = true))
-	class UCameraComponent* FollowCamera;
+	UCameraComponent* FollowCamera;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = true))
+	UPlayerCombatComponent* PlayerCombatComponent;
 
 #pragma endregion
 
@@ -40,13 +48,16 @@ private:
 #pragma region Inputs
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData", meta = (AllowPrivateAccess = true))
-	class UDataAsset_InputConfig* InputConfigData;
+	UDataAsset_InputConfig* InputConfigData;
 
 	void Input_Move(const FInputActionValue& InputActionValue);
 
 	void Input_Look(const FInputActionValue& InputActionValue);
 
 #pragma endregion
+
+public:
+	FORCEINLINE UPlayerCombatComponent* GetPlayerCombatComponent() const { return PlayerCombatComponent; }
 
 };
 	

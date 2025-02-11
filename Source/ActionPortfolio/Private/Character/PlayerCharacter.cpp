@@ -11,6 +11,8 @@
 #include "Component/Input/CharacterInputComponent.h"
 #include "CharacterGamePlayTags.h"
 #include "AbilitySystem/BaseAbilitySystemComponent.h"
+#include "DataAsset/StartUpData/DataAsset_CharacterStartUpData.h"
+#include "Component/Combat/PlayerCombatComponent.h"
 #include "DebugHelper.h"
 
 APlayerCharacter::APlayerCharacter()
@@ -28,23 +30,26 @@ APlayerCharacter::APlayerCharacter()
 	CameraBoom->bUsePawnControlRotation = true;
 
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);	
 	FollowCamera->bUsePawnControlRotation = false;
-
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 500.f, 0.f);
 	GetCharacterMovement()->MaxWalkSpeed = 400.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
+
+	PlayerCombatComponent = CreateDefaultSubobject<UPlayerCombatComponent>(TEXT("PlayerCombatComponent"));
 }
 
 void APlayerCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	if (BaseAbilitySystemComponent && BaseAttributeSet) {
-		const FString ASCText = FString::Printf(TEXT("Owner : %s, Avatar : %s"), *BaseAbilitySystemComponent->GetOwnerActor()->GetActorLabel(), *BaseAbilitySystemComponent->GetAvatarActor()->GetActorLabel());
-		Debug::Print(TEXT("valid") + ASCText);
+	// 이미 유효한 데이터 에셋을 할당했는지 확인
+	if (!CharacterStartUpData.IsNull()) {
+		if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous()) {
+			LoadedData->GiveToAbilitySystemComponent(BaseAbilitySystemComponent);
+		}
 	}
 }
 

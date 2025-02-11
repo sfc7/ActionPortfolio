@@ -6,6 +6,8 @@
 #include "AnimInstance/CharacterAnimInstance.h"
 #include "PlayerCharacterAnimInstance.generated.h"
 
+class APlayerCharacter;
+
 /**
  * 
  */
@@ -15,11 +17,11 @@ class ACTIONPORTFOLIO_API UPlayerCharacterAnimInstance : public UCharacterAnimIn
 	GENERATED_BODY()
 public:
 	virtual void NativeInitializeAnimation() override;
-	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds);
+	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
 
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|Refrences")
-	class APlayerCharacter* OwningPlayerCharacter;
+	APlayerCharacter* OwningPlayerCharacter;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
 	bool bShouldEnterRelaxState;
