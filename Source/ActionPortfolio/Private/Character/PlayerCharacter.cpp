@@ -48,7 +48,7 @@ void APlayerCharacter::PossessedBy(AController* NewController)
 	// 이미 유효한 데이터 에셋을 할당했는지 확인
 	if (!CharacterStartUpData.IsNull()) {
 		if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous()) {
-			LoadedData->GiveToAbilitySystemComponent(BaseAbilitySystemComponent);
+			LoadedData->GiveToAbilitySystemComponent(BaseAbilitySystemComponent); // 가상함수니까 Subclassof 밑에 클래스의 GiveToAbilitySystemComponent 다 실행
 		}
 	}
 }
@@ -74,6 +74,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	CharacterInputComponent->BindNativeInputAction(InputConfigData, CharacterGameplayTags::InputTag_Move, ETriggerEvent::Triggered, this, &ThisClass::Input_Move);
 	CharacterInputComponent->BindNativeInputAction(InputConfigData, CharacterGameplayTags::InputTag_Look, ETriggerEvent::Triggered, this, &ThisClass::Input_Look);
+
+	CharacterInputComponent->BindAbilityInputAction(InputConfigData,this, &ThisClass::Input_AbilityInputPressed, &ThisClass::Input_AbilityInputReleased);
 }
 
 void APlayerCharacter::Input_Move(const FInputActionValue& InputActionValue)
@@ -87,7 +89,7 @@ void APlayerCharacter::Input_Move(const FInputActionValue& InputActionValue)
 
 		AddMovementInput(ForwardDirection, MovementVector.Y);
 	}
-
+		
 	if (MovementVector.X != 0.f) {
 		const FVector RightDirection = MovementRotation.RotateVector(FVector::RightVector);
 
@@ -106,4 +108,14 @@ void APlayerCharacter::Input_Look(const FInputActionValue& InputActionValue)
 	if (LookAxisVector.Y != 0.f) {
 		AddControllerYawInput(LookAxisVector.Y);
 	}
+}
+
+void APlayerCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
+{
+	BaseAbilitySystemComponent->OnAbilityInputPressed(InInputTag);
+}
+
+void APlayerCharacter::Input_AbilityInputReleased(FGameplayTag InInputTag)
+{
+	BaseAbilitySystemComponent->OnAbilityInputReleased(InInputTag);
 }

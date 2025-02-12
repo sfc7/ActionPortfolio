@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Character/BaseCharacter.h"
-#include "InputActionValue.h"
+#include "GameplayTagContainer.h"
 #include "PlayerCharacter.generated.h"
 
 class USpringArmComponent;
@@ -51,9 +51,10 @@ private:
 	UDataAsset_InputConfig* InputConfigData;
 
 	void Input_Move(const FInputActionValue& InputActionValue);
-
 	void Input_Look(const FInputActionValue& InputActionValue);
 
+	void Input_AbilityInputPressed(FGameplayTag InInputTag);
+	void Input_AbilityInputReleased(FGameplayTag InInputTag);
 #pragma endregion
 
 public:

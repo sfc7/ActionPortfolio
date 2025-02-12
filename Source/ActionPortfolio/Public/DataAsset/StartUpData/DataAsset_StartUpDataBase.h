@@ -20,7 +20,7 @@ public:
 	virtual void GiveToAbilitySystemComponent(UBaseAbilitySystemComponent* InASCToGive, int32 ApplyLevel = 1);
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "StartUpData")
-	TArray<TSubclassOf<UBaseGameplayAbility>>ActivateOnGivenAbilities;
+	TArray<TSubclassOf<UBaseGameplayAbility>> ActivateOnGivenAbilities;
 
 	UPROPERTY(EditDefaultsOnly, Category = "StartUpData")
 	TArray<TSubclassOf<UBaseGameplayAbility>> ReactiveAbilities;

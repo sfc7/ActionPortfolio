@@ -26,7 +26,6 @@ void UDataAsset_StartUpDataBase::GrantAbilities(TArray<TSubclassOf<UBaseGameplay
 		AbilitySpec.SourceObject = InASCToGive->GetAvatarActor();
 		AbilitySpec.Level = ApplyLevel;
 
-
 		InASCToGive->GiveAbility(AbilitySpec);
 	}
 }
